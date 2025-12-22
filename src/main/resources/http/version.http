@@ -1,0 +1,12 @@
+### Fetch application version using GraphQL
+# This request sends a GraphQL query over HTTP to retrieve version information.
+# GraphQL uses a single HTTP endpoint (/graphql) and executes the query defined in the request body.
+
+GRAPHQL http://localhost:8080/graphql
+
+{
+    getVersion {
+        name
+        releaseDate
+    }
+}
