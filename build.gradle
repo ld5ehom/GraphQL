@@ -36,6 +36,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-graphql-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'com.graphql-java:graphql-java-extended-scalars:21.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {
