@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-// Provides application-level author operations used by graphql services
-// graphql 서비스에서 사용하는 저자 도메인 애플리케이션 서비스
+// Provides application-level author operations used by GraphQL services
+// GraphQL 서비스에서 사용하는 Author 도메인 애플리케이션 서비스
 @Service
 public class AuthorService {
+
     private final AuthorRepository authorRepository;
 
     @Autowired
@@ -20,19 +21,25 @@ public class AuthorService {
     }
 
     // Save a new author or update an existing one
-    // 저자 정보를 저장하거나 기존 저자 정보를 업데이트하는 메소드
+    // Author 엔티티를 저장하거나 수정
     public Author saveAuthor(Author author) {
         return authorRepository.save(author);
     }
 
     // Find an author by ID
-    // ID로 특정 저자를 조회하는 메소드
+    // ID를 기준으로 단일 Author 조회
     public Optional<Author> findById(Long id) {
         return authorRepository.findById(id);
     }
 
+    // Find multiple authors by their IDs
+    // 여러 Author를 ID 목록 기준으로 조회
+    public List<Author> findAllById(List<Long> ids) {
+        return authorRepository.findAllById(ids);
+    }
+
     // Retrieve all authors
-    // 모든 저자 목록을 조회하는 메소드
+    // 저장된 모든 Author 조회
     public List<Author> findAll() {
         return authorRepository.findAll();
     }
