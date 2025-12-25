@@ -1,5 +1,6 @@
 package com.ld5ehom.graphql.global.config;
 
+import com.ld5ehom.graphql.global.directive.AuthenticationDirective;
 import graphql.scalars.ExtendedScalars;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +14,9 @@ public class GraphqlConfig {
     // Register custom scalar types and authentication directive
     // 커스텀 스칼라(Date, DateTime, Long)와 인증 디렉티브를 GraphQL 런타임에 등록
     @Bean
-    public RuntimeWiringConfigurer runtimeWiringConfigurer() {
+    public RuntimeWiringConfigurer runtimeWiringConfigurer(AuthenticationDirective authDirective) {
         return wiringBuilder -> wiringBuilder
+
                 // Date scalar for date-only values
                 // 날짜 전용 스칼라
                 .scalar(ExtendedScalars.Date)
@@ -25,7 +27,10 @@ public class GraphqlConfig {
 
                 // Long scalar for large integer values
                 // Long 타입 정수 값을 위한 스칼라
-                .scalar(ExtendedScalars.GraphQLLong);
+                .scalar(ExtendedScalars.GraphQLLong)
 
+                // Authentication directive for field-level authorization
+                // GraphQL 필드 단위 인증 처리를 위한 auth 디렉티브 등록
+                .directive("auth", authDirective);
     }
 }
