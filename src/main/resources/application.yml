@@ -5,7 +5,7 @@ spring:
   graphql:
     graphiql:
       enabled: true
-      path: /graphiql   # GraphiQL UI 경로
+      path: /graphiql
     schema:
       inspection:
         enabled: true

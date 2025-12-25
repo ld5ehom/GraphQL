@@ -78,6 +78,8 @@ This phase establishes the GraphQL runtime within a Spring application and clari
     https://github.com/spring-projects/spring-graphql
   - Netflix / dgs-framework
     https://github.com/Netflix/dgs-framework
+  - GraphQL playground Github
+    https://github.com/graphql/graphql-playground
 
 - Project setup using spring-graphql
 - Validation of basic GraphQL execution using a simple Version query

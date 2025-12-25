@@ -16,23 +16,30 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 public class SecurityConfig {
 
-    // Configure HTTP security for GraphQL endpoints
-    // GraphQL 엔드포인트 접근을 위한 보안 설정
+    // Configure HTTP security for GraphQL endpoints and documentation UIs
+    // GraphQL 엔드포인트 및 문서화 UI 접근을 위한 보안 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Disable CSRF for non-browser GraphQL clients
-                // GraphQL 클라이언트 사용을 위해 CSRF 비활성화
+                // Disable CSRF for GraphQL clients and static UI pages
+                // GraphQL 클라이언트 및 정적 UI 페이지 사용을 위해 CSRF 비활성화
                 .csrf(csrf -> csrf.disable())
 
-                // Require authentication for all requests
-                // 모든 요청에 대해 인증 요구
+                // Allow unauthenticated access to GraphiQL / Playground and the GraphQL endpoint
+                // GraphiQL / Playground 및 GraphQL 엔드포인트는 인증 없이 접근 허용
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/playground.html",     // GraphQL Playground UI
+                                "/graphiql",            // GraphiQL UI
+                                "/graphql"              // GraphQL API endpoint
+                        ).permitAll()
+                        // Require authentication for everything else
+                        // 그 외 모든 요청은 인증 필요
                         .anyRequest().authenticated()
                 )
 
-                // Enable HTTP Basic authentication
-                // HTTP Basic 인증 활성화
+                // Enable HTTP Basic authentication for protected endpoints
+                // 보호된 엔드포인트에 대해 HTTP Basic 인증 활성화
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -43,7 +50,11 @@ public class SecurityConfig {
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user = User.builder()
+                // Default username for local development
+                // 로컬 개발용 기본 사용자명
                 .username("user")
+                // Encode password using BCrypt
+                // BCrypt로 비밀번호 인코딩
                 .password(passwordEncoder().encode("password"))
                 .roles("USER")
                 .build();
